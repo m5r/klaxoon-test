@@ -40,17 +40,40 @@ const ListPage: FunctionComponent = () => {
 					<p>You have no bookmark yet</p>
 				)}
 
-				<form onSubmit={onSubmit}>
-					<input
-						type="text"
-						value={newBookmarkUrl}
-						onChange={(event) => setNewBookmarkUrl(event.target.value)}
-					/>
+				<div className="relative py-4">
+					<div className="absolute inset-0 flex items-center">
+						<div className="w-full border-t border-gray-300" />
+					</div>
+				</div>
 
-					<button
-						type="submit"
-						disabled={isAddingBookmark}
-					>Add to bookmarks</button>
+				<form onSubmit={onSubmit}>
+					<div className="flex items-end gap-x-3">
+						<div className="flex-1">
+							<label htmlFor="new-bookmark-url" className="block text-sm font-medium text-gray-700">
+								URL you want to bookmark
+							</label>
+							<div className="mt-1">
+								<input
+									type="text"
+									name="new-bookmark-url"
+									id="new-bookmark-url"
+									className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-sm"
+									placeholder="https://vimeo.com/145743834"
+									value={newBookmarkUrl}
+									onChange={(event) => setNewBookmarkUrl(event.target.value)}
+								/>
+							</div>
+						</div>
+
+						<button
+							type="submit"
+							className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-sm shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2
+						${isAddingBookmark ? "cursor-not-allowed bg-indigo-400" : "cursor-pointer bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
+							disabled={isAddingBookmark}
+						>
+							Add to bookmarks
+						</button>
+					</div>
 				</form>
 			</section>
 		</div>
