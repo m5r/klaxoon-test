@@ -1,9 +1,13 @@
 import type { FunctionComponent } from "react";
 
+import useBookmarks from "../hooks/useBookmarks";
+
 const ListPage: FunctionComponent = () => {
+	const { bookmarks } = useBookmarks();
+
 	return (
 		<div>
-			list bookmarks
+			You have {bookmarks.length} bookmarks
 		</div>
 	);
 }
