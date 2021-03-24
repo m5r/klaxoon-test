@@ -9,11 +9,11 @@ function App() {
 	return (
 		<Router>
 			<Switch>
-				<Route path="/" exact>
-					<Redirect to="/list" />
-				</Route>
 				<Route path="/list" exact component={ListPage} />
 				<Route path="/edit/:bookmarkId" exact component={EditPage} />
+				<Route path="*">
+					<Redirect to="/list" />
+				</Route>
 			</Switch>
 		</Router>
 	);
