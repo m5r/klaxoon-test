@@ -5,19 +5,24 @@ import Bookmark from "../models/bookmark";
 import useBookmarks from "./useBookmarks";
 
 export default function useBookmark(bookmarkId: Bookmark["id"]) {
-	const { bookmarks, removeBookmark } = useBookmarks();
+	const { isInitialized, bookmarks, removeBookmark } = useBookmarks();
 	const [bookmark, setBookmark] = useState<Bookmark | null>(null);
 	const history = useHistory();
 
 	useEffect(() => {
 		// initialize state
+		if (!isInitialized) {
+			return;
+		}
+
 		const foundBookmark = bookmarks.find(bookmark => bookmark.id === bookmarkId);
+		console.log("foundBookmark", foundBookmark);
 		if (!foundBookmark) {
 			return history.push("/list");
 		}
 
 		setBookmark(foundBookmark);
-	}, [bookmarks]);
+	}, [isInitialized]);
 
 	function deleteBookmark() {
 		removeBookmark(bookmarkId);

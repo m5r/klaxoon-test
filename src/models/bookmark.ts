@@ -1,6 +1,7 @@
 type CtorParams = {
 	url: string;
 	title: string;
+	thumbnail: string;
 	author: string;
 }
 
@@ -8,14 +9,16 @@ export default class Bookmark {
 	readonly id: string;
 	readonly url: string;
 	readonly title: string;
+	readonly thumbnail: string;
 	readonly author: string;
 	readonly addedAt: Date;
 	keywords: Set<string>;
 
-	constructor({ author, title, url }: CtorParams) {
+	constructor({ thumbnail, author, title, url }: CtorParams) {
 		this.id = generateRandomString();
 		this.keywords = new Set();
 		this.addedAt = new Date();
+		this.thumbnail = thumbnail;
 		this.author = author;
 		this.title = title;
 		this.url = url;

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Bookmark from "../models/bookmark";
 
 export default function useBookmarks() {
+	const [isInitialized, setIsInitialized] = useState(false);
 	const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 	const history = useHistory();
 
@@ -14,10 +15,12 @@ export default function useBookmarks() {
 		(async () => {
 			const bookmarksFromStorage = await localForage.getItem<Bookmark[]>("bookmarks");
 			if (!bookmarksFromStorage) {
+				setIsInitialized(true);
 				return;
 			}
 
 			setBookmarks(bookmarksFromStorage);
+			setIsInitialized(true);
 		})();
 	}, []);
 
@@ -25,13 +28,15 @@ export default function useBookmarks() {
 		return history.push(`/edit/${bookmarkId}`);
 	}
 
-	function addBookmark(bookmarkUrl: Bookmark["url"]) {
+	async function addBookmark(bookmarkUrl: Bookmark["url"]) {
 		// fetch data from noembed
+		const thumbnail = "thumbnail";
 		const author = "author";
 		const title = "title";
 
 		const bookmark = new Bookmark({
 			url: bookmarkUrl,
+			thumbnail,
 			author,
 			title,
 		});
@@ -56,6 +61,7 @@ export default function useBookmarks() {
 	}
 
 	return {
+		isInitialized,
 		bookmarks,
 		editBookmark,
 		addBookmark,
