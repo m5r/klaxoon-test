@@ -9,7 +9,7 @@ export default function useBookmarks() {
 	const history = useHistory();
 
 	useEffect(() => {
-		// TODO: save bookmarks to context too
+		// TODO: save bookmarks to context to avoid refetching them from localstorage every time the hook is called
 		// initialize state
 		(async () => {
 			const bookmarksFromStorage = await localForage.getItem<Bookmark[]>("bookmarks");
