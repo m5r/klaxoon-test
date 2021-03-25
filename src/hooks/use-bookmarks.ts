@@ -1,28 +1,13 @@
 import localForage from "localforage";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import Bookmark from "../models/bookmark";
+import { BookmarksContext } from "../contexts/bookmarks-context";
 
 export default function useBookmarks() {
-	const [isInitialized, setIsInitialized] = useState(false);
-	const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+	const { isInitialized, bookmarks, setBookmarks } = useContext(BookmarksContext);
 	const history = useHistory();
-
-	useEffect(() => {
-		// TODO: save bookmarks to context to avoid refetching them from localstorage every time the hook is called
-		// initialize state
-		(async () => {
-			const bookmarksFromStorage = await localForage.getItem<Bookmark[]>("bookmarks");
-			if (!bookmarksFromStorage) {
-				setIsInitialized(true);
-				return;
-			}
-
-			setBookmarks(bookmarksFromStorage);
-			setIsInitialized(true);
-		})();
-	}, []);
 
 	function editBookmark(bookmarkId: Bookmark["id"]) {
 		return history.push(`/edit/${bookmarkId}`);
