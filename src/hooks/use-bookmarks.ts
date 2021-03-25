@@ -1,4 +1,3 @@
-import localForage from "localforage";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -23,7 +22,6 @@ export default function useBookmarks() {
 
 		const response = await fetch(`https://noembed.com/embed?url=${bookmarkUrl}`);
 		const bookmarkMetadata: NoEmbedResponse = await response.json();
-		console.log("bookmarkMetadata", bookmarkMetadata);
 
 		const bookmark = makeBookmark(bookmarkMetadata);
 
@@ -42,7 +40,6 @@ export default function useBookmarks() {
 				return bookmark;
 			}
 
-			console.log("bookmark", bookmark);
 			bookmark.updateKeywords(keywords);
 			return bookmark;
 		});

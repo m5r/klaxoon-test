@@ -15,9 +15,7 @@ export default function useBookmark(bookmarkId: Bookmark["id"]) {
 			return;
 		}
 
-		console.log("bookmarks", bookmarks);
 		const foundBookmark = bookmarks.find(bookmark => bookmark.id === bookmarkId);
-		console.log("foundBookmark", foundBookmark);
 		if (!foundBookmark) {
 			return history.push("/list");
 		}
