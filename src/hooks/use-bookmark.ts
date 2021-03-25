@@ -21,6 +21,7 @@ export default function useBookmark(bookmarkId: Bookmark["id"]) {
 		}
 
 		setBookmark(foundBookmark);
+		// eslint-disable-next-line
 	}, [isInitialized]);
 
 	function updateKeywords(keywords: string[]) {
