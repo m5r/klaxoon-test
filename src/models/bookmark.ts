@@ -1,5 +1,6 @@
 type CtorParams = {
 	id?: string; // id is passed when deserializing
+	keywords?: Set<string>; // keywords is passed when deserializing
 	url: string;
 	title: string;
 	thumbnail: string;
@@ -18,9 +19,9 @@ export default class Bookmark {
 	type: BookmarkType;
 	keywords: Set<string>;
 
-	constructor({ id, thumbnail, author, title, url }: CtorParams) {
+	constructor({ id, keywords, thumbnail, author, title, url }: CtorParams) {
 		this.id = id ?? generateRandomString();
-		this.keywords = new Set();
+		this.keywords = keywords ?? new Set();
 		this.addedAt = new Date();
 		this.thumbnail = thumbnail;
 		this.author = author;

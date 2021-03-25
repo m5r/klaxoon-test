@@ -67,6 +67,10 @@ export function deserializeBookmark(bookmarkMetadata: Bookmark) {
 		video: VideoBookmark,
 		picture: PictureBookmark,
 	};
+	const bookmarkWithSerializedKeywords = {
+		...bookmarkMetadata,
+		keywords: new Set(bookmarkMetadata.keywords),
+	};
 
-	return new constructors[bookmarkMetadata.type](bookmarkMetadata);
+	return new constructors[bookmarkMetadata.type](bookmarkWithSerializedKeywords);
 }
