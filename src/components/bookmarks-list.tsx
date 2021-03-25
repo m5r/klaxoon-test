@@ -54,6 +54,9 @@ export default function BookmarksList() {
 												<p className="text-sm text-gray-500">
 													{bookmark.author}
 												</p>
+												<p className="text-sm text-gray-500">
+													{Array.from(bookmark.keywords).join(", ")}
+												</p>
 											</div>
 										</div>
 									</div>
@@ -98,6 +101,7 @@ export default function BookmarksList() {
 					{allPages.map((pageNumber) => {
 						return (
 							<Link
+								key={`page number ${pageNumber}`}
 								to={`/list/${pageNumber}`}
 								className={`
 								${currentPage === pageNumber ?
