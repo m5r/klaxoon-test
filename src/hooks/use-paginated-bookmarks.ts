@@ -9,10 +9,12 @@ export default function usePaginatedBookmarks({ page, amountPerPage = 3 }: Param
 	const { bookmarks } = useBookmarks();
 
 	const paginatedBookmarks = bookmarks.slice((page - 1) * amountPerPage, (page * amountPerPage));
-	const canPaginate = bookmarks.length > amountPerPage;
 
+	const lastPage = Math.ceil(bookmarks.length / amountPerPage);
 	let previousPage: number | null;
 	let nextPage: number | null;
+
+	const canPaginate = bookmarks.length > amountPerPage;
 	if (canPaginate) {
 		previousPage = page > 1 ? page - 1. : null;
 
@@ -23,9 +25,12 @@ export default function usePaginatedBookmarks({ page, amountPerPage = 3 }: Param
 		nextPage = null;
 	}
 
+	const allPages = Array(lastPage).fill(0).map((_, index) => index + 1);
+
 	return {
 		bookmarks: paginatedBookmarks,
 		previousPage,
 		nextPage,
+		allPages,
 	}
 }
