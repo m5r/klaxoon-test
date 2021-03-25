@@ -39,6 +39,11 @@ export default function useBookmarks() {
 	}
 
 	async function addBookmark(bookmarkUrl: Bookmark["url"]) {
+		const isUrlAlreadyBookmarked = Boolean(bookmarks.find(bookmark => bookmark.url === bookmarkUrl));
+		if (isUrlAlreadyBookmarked) {
+			throw new Error("URL is already bookmarked");
+		}
+
 		const response = await fetch(`https://noembed.com/embed?url=${bookmarkUrl}`);
 		const bookmarkMetadata: NoEmbedResponse = await response.json();
 		console.log("bookmarkMetadata", bookmarkMetadata);

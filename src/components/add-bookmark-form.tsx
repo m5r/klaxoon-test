@@ -22,10 +22,15 @@ export default function AddBookmarkForm() {
 			return;
 		}
 
-		setIsAddingBookmark(true);
-		await addBookmark(newBookmarkUrl);
-		setIsAddingBookmark(false);
-		setNewBookmarkUrl("");
+		try {
+			setIsAddingBookmark(true);
+			await addBookmark(newBookmarkUrl);
+			setNewBookmarkUrl("");
+		} catch (error) {
+			setErrorMessage(error.message);
+		} finally {
+			setIsAddingBookmark(false);
+		}
 	}
 
 	return (
