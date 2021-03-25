@@ -39,6 +39,7 @@ const EditPage: FunctionComponent = () => {
 							tags={Array.from(bookmark.keywords)}
 							onChange={keywords => updateKeywords(keywords)}
 							placeholder="Add keywords here"
+							editable={true}
 						/>
 					</div>
 				</div>
