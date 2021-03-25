@@ -39,14 +39,18 @@ export default function BookmarksList() {
 								<div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
 									<div className="ml-4 mt-4">
 										<div className="flex items-center">
-											<div className="flex-shrink-0">
-												<img className="w-16 rounded-sm" src={bookmark.thumbnail}
-													 alt={`${bookmark.title} thumbnail`} />
-											</div>
+											<a href={bookmark.url}>
+												<div className="flex-shrink-0">
+													<img className="w-16 rounded-sm" src={bookmark.thumbnail}
+														 alt={`${bookmark.title} thumbnail`} />
+												</div>
+											</a>
 											<div className="ml-4">
-												<h3 className="text-lg leading-6 font-medium text-gray-900">
-													{bookmark.title}
-												</h3>
+												<a href={bookmark.url}>
+													<h3 className="text-lg leading-6 font-medium text-gray-900">
+														{bookmark.title}
+													</h3>
+												</a>
 												<p className="text-sm text-gray-500">
 													{bookmark.author}
 												</p>
