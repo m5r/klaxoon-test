@@ -1,6 +1,20 @@
 # Test technique - Klaxoon
 
-## Instructions
+## Installation
+
+```shell script
+git clone git@github.com:m5r/klaxoon-test.git
+cd klaxoon-test
+npm i
+npm start
+```
+
+## Tests
+
+Les tests unitaires ne sont pas fonctionnels. Je n'ai pas pu aller au bout par manque de temps
+après avoir accordé un peu trop de temps au debug d'un problème lié au render du context provider <BookmarksContext />
+
+## Instructions de l'exercice
 
 Cet exercice a pour but d’évaluer vos compétences en JS. Vous devrez réaliser une application de gestion de bookmarks avec React et l'API des Hooks (https://fr.reactjs.org/docs/hooks-reference.html).
 
