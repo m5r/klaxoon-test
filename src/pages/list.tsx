@@ -2,16 +2,26 @@ import type { FormEvent, FunctionComponent } from "react";
 import { useState } from "react";
 
 import useBookmarks from "../hooks/use-bookmarks";
+import WarningIcon from "../components/warning-icon";
 
 const ListPage: FunctionComponent = () => {
 	const { bookmarks, removeBookmark, editBookmark, addBookmark } = useBookmarks();
 	const [newBookmarkUrl, setNewBookmarkUrl] = useState("");
 	const [isAddingBookmark, setIsAddingBookmark] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+	const isError = errorMessage !== "";
 
 	async function onSubmit(event: FormEvent) {
 		event.preventDefault();
 
-		// TODO: validate newBookmarkUrl is a valid url
+		try {
+			new URL(newBookmarkUrl);
+			setErrorMessage("");
+		} catch (error) {
+			setErrorMessage("Please submit a valid url");
+			return;
+		}
+
 		setIsAddingBookmark(true);
 		await addBookmark(newBookmarkUrl);
 		setIsAddingBookmark(false);
@@ -47,22 +57,34 @@ const ListPage: FunctionComponent = () => {
 				</div>
 
 				<form onSubmit={onSubmit}>
-					<div className="flex items-end gap-x-3">
-						<div className="flex-1">
+					<div className="flex items-center gap-x-3">
+						<div className="flex-1 relative">
 							<label htmlFor="new-bookmark-url" className="block text-sm font-medium text-gray-700">
 								URL you want to bookmark
 							</label>
-							<div className="mt-1">
+							<div className="mt-2">
 								<input
 									type="text"
 									name="new-bookmark-url"
 									id="new-bookmark-url"
-									className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-sm"
+									className={`
+									shadow-sm block w-full sm:text-sm rounded-sm
+									${isError ? "border-red-400 text-red-900 placeholder-red-400" : "focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"}
+									`}
 									placeholder="https://vimeo.com/145743834"
 									value={newBookmarkUrl}
 									onChange={(event) => setNewBookmarkUrl(event.target.value)}
 								/>
 							</div>
+							{isError ? (
+								<div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+									<WarningIcon />
+								</div>
+							) : null}
+							<p className="mt-2 text-sm text-red-600">
+								&nbsp;
+								{isError ? errorMessage : ""}
+							</p>
 						</div>
 
 						<button
