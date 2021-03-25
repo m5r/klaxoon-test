@@ -1,7 +1,7 @@
 import type { FormEvent, FunctionComponent } from "react";
 import { useState } from "react";
 
-import useBookmarks from "../hooks/useBookmarks";
+import useBookmarks from "../hooks/use-bookmarks";
 
 const ListPage: FunctionComponent = () => {
 	const { bookmarks, removeBookmark, editBookmark, addBookmark } = useBookmarks();

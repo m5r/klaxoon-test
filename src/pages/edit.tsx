@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 
-import useBookmark from "../hooks/useBookmark";
+import useBookmark from "../hooks/use-bookmark";
 
 type Params = {
 	bookmarkId: string;
