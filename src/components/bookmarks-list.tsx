@@ -7,6 +7,7 @@ import EditIcon from "./edit-icon";
 import DeleteIcon from "./delete-icon";
 import ArrowLeftIcon from "./arrow-left-icon";
 import ArrowRightIcon from "./arrow-right-icon";
+import VideoBookmark from "../models/video-bookmark";
 
 type Params = {
 	page: string;
@@ -40,9 +41,17 @@ export default function BookmarksList() {
 									<div className="ml-4 mt-4">
 										<div className="flex items-center">
 											<a href={bookmark.url}>
-												<div className="flex-shrink-0">
-													<img className="w-16 rounded-sm" src={bookmark.thumbnail}
-														 alt={`${bookmark.title} thumbnail`} />
+												<div className="flex-shrink-0 relative">
+													<img
+														className="w-16 rounded-sm"
+														src={bookmark.thumbnail}
+														 alt={`${bookmark.title} thumbnail`}
+													/>
+													{bookmark instanceof VideoBookmark ? (
+														<span className="absolute bottom-0 right-0 bg-white text-sm opacity-50">
+															{formatDurationToHHMMSS(bookmark.duration)}
+														</span>
+													) : null}
 												</div>
 											</a>
 											<div className="ml-4">
@@ -127,4 +136,8 @@ export default function BookmarksList() {
 			</nav>
 		</>
 	);
+}
+
+function formatDurationToHHMMSS(duration: number): string {
+	return new Date(0, 0, 0, 0, 0, duration).toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
 }
