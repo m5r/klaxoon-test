@@ -15,7 +15,7 @@ type Params = {
 export default function BookmarksList() {
 	const { page } = useParams<Params>();
 	const currentPage = Number.parseInt(page, 10);
-	const { removeBookmark, editBookmark } = useBookmarks();
+	const { removeBookmark, openEditBookmark } = useBookmarks();
 	const {
 		bookmarks,
 		previousPage,
@@ -63,7 +63,7 @@ export default function BookmarksList() {
 									<div className="ml-4 mt-4 flex-shrink-0 flex">
 										<span className="relative z-0 inline-flex shadow-sm rounded-md">
 											<button
-												onClick={() => editBookmark(bookmark.id)}
+												onClick={() => openEditBookmark(bookmark.id)}
 												type="button"
 												className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
 											>

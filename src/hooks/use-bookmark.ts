@@ -1,11 +1,11 @@
  import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import Bookmark from "../models/bookmark";
+ import type Bookmark from "../models/bookmark";
 import useBookmarks from "./use-bookmarks";
 
 export default function useBookmark(bookmarkId: Bookmark["id"]) {
-	const { isInitialized, bookmarks, removeBookmark } = useBookmarks();
+	const { isInitialized, bookmarks, removeBookmark, editBookmarkKeywords } = useBookmarks();
 	const [bookmark, setBookmark] = useState<Bookmark | null>(null);
 	const history = useHistory();
 
@@ -15,6 +15,7 @@ export default function useBookmark(bookmarkId: Bookmark["id"]) {
 			return;
 		}
 
+		console.log("bookmarks", bookmarks);
 		const foundBookmark = bookmarks.find(bookmark => bookmark.id === bookmarkId);
 		console.log("foundBookmark", foundBookmark);
 		if (!foundBookmark) {
@@ -24,6 +25,11 @@ export default function useBookmark(bookmarkId: Bookmark["id"]) {
 		setBookmark(foundBookmark);
 	}, [isInitialized]);
 
+	function updateKeywords(keywords: string[]) {
+		const keywordsSet = new Set(keywords);
+		editBookmarkKeywords(bookmarkId, keywordsSet);
+	}
+
 	function deleteBookmark() {
 		removeBookmark(bookmarkId);
 	}
@@ -31,5 +37,6 @@ export default function useBookmark(bookmarkId: Bookmark["id"]) {
 	return {
 		bookmark,
 		deleteBookmark,
+		updateKeywords,
 	};
 }

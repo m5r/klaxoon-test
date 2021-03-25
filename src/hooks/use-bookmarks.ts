@@ -36,12 +36,26 @@ export default function useBookmarks() {
 		updateBookmarks(nextBookmarks);
 	}
 
+	function editBookmarkKeywords(bookmarkId: Bookmark["id"], keywords: Set<string>) {
+		const nextBookmarks = bookmarks.map(bookmark => {
+			if (bookmark.id !== bookmarkId) {
+				return bookmark;
+			}
+
+			console.log("bookmark", bookmark);
+			bookmark.updateKeywords(keywords);
+			return bookmark;
+		});
+		updateBookmarks(nextBookmarks);
+	}
+
 	return {
 		isInitialized,
 		bookmarks,
-		editBookmark,
+		openEditBookmark,
 		addBookmark,
 		removeBookmark,
+		editBookmarkKeywords,
 	};
 }
 
