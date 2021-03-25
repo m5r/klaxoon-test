@@ -5,6 +5,31 @@ import { useHistory } from "react-router-dom";
 import Bookmark from "../models/bookmark";
 import { BookmarksContext } from "../contexts/bookmarks-context";
 
+type NoEmbedResponse = {
+	url: string;
+	video_id: number;
+	thumbnail_height: number;
+	version: string;
+	duration: number;
+	author_name: string;
+	is_plus: string;
+	thumbnail_width: number;
+	type: string;
+	provider_name: string;
+	description: string;
+	provider_url: string;
+	width: number;
+	height: number;
+	account_type: string;
+	html: string;
+	title: string;
+	upload_date: string;
+	thumbnail_url: string;
+	thumbnail_url_with_play_button: string;
+	author_url: string;
+	uri: string;
+};
+
 export default function useBookmarks() {
 	const { isInitialized, bookmarks, setBookmarks } = useContext(BookmarksContext);
 	const history = useHistory();
@@ -14,11 +39,14 @@ export default function useBookmarks() {
 	}
 
 	async function addBookmark(bookmarkUrl: Bookmark["url"]) {
-		// fetch data from noembed
-		const thumbnail = "thumbnail";
-		const author = "author";
-		const title = "title";
+		const response = await fetch(`https://noembed.com/embed?url=${bookmarkUrl}`);
+		const bookmarkMetadata: NoEmbedResponse = await response.json();
+		console.log("bookmarkMetadata", bookmarkMetadata);
+		const thumbnail = bookmarkMetadata.thumbnail_url;
+		const author = bookmarkMetadata.author_name;
+		const title = bookmarkMetadata.title;
 
+		// TODO: VideoBookmark / PictureBookmark
 		const bookmark = new Bookmark({
 			url: bookmarkUrl,
 			thumbnail,
