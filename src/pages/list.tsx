@@ -6,7 +6,15 @@ import Divider from "../components/divider";
 import AddBookmarkForm from "../components/add-bookmark-form";
 
 const ListPage: FunctionComponent = () => {
-	const { bookmarks, removeBookmark, editBookmark } = useBookmarks();
+	const { bookmarks, removeBookmark, editBookmark, isInitialized } = useBookmarks();
+
+	if (!isInitialized) {
+		return (
+			<div>
+				Loading your bookmarks
+			</div>
+		);
+	}
 
 	return (
 		<div>
@@ -36,6 +44,6 @@ const ListPage: FunctionComponent = () => {
 			</section>
 		</div>
 	);
-}
+};
 
 export default ListPage;
