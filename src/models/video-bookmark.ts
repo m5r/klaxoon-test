@@ -1,6 +1,7 @@
 import Bookmark from "./bookmark";
 
 type CtorParams = {
+	id?: string;
 	url: string;
 	title: string;
 	thumbnail: string;
@@ -15,10 +16,11 @@ export default class VideoBookmark extends Bookmark {
 	height: number;
 	duration: number;
 
-	constructor({ thumbnail, author, title, url, duration, height, width }: CtorParams) {
-		super({ thumbnail, author, title, url });
+	constructor({ id, thumbnail, author, title, url, duration, height, width }: CtorParams) {
+		super({ id, thumbnail, author, title, url });
 		this.width = width;
 		this.height = height;
 		this.duration = duration;
+		this.type = "video";
 	}
 }

@@ -1,8 +1,10 @@
 import type { Dispatch, FunctionComponent, SetStateAction } from "react";
 import { createContext, useEffect, useState } from "react";
-
-import Bookmark from "../models/bookmark";
 import localForage from "localforage";
+
+import Bookmark, { BookmarkType } from "../models/bookmark";
+import VideoBookmark from "../models/video-bookmark";
+import PictureBookmark from "../models/picture-bookmark";
 
 type Context = {
 	isInitialized: boolean;
@@ -24,13 +26,15 @@ export const BookmarksProvider: FunctionComponent = ({ children }) => {
 	useEffect(() => {
 		// initialize state from local storage
 		(async () => {
-			const bookmarksFromStorage = await localForage.getItem<Bookmark[]>("bookmarks");
-			if (!bookmarksFromStorage) {
+			const serializedBookmarks = await localForage.getItem<Bookmark[]>("bookmarks");
+			if (!serializedBookmarks) {
 				setIsInitialized(true);
 				return;
 			}
 
-			setBookmarks(bookmarksFromStorage);
+			const instantiatedBookmarks = serializedBookmarks.map(bookmark => deserializeBookmark(bookmark));
+
+			setBookmarks(instantiatedBookmarks);
 			setIsInitialized(true);
 		})();
 	}, []);
@@ -39,5 +43,16 @@ export const BookmarksProvider: FunctionComponent = ({ children }) => {
 		<BookmarksContext.Provider value={context}>
 			{children}
 		</BookmarksContext.Provider>
-	)
+	);
+};
+
+
+export function deserializeBookmark(bookmarkMetadata: Bookmark) {
+	const constructors: Record<BookmarkType, typeof Bookmark> = {
+		link: Bookmark,
+		video: VideoBookmark,
+		picture: PictureBookmark,
+	};
+
+	return new constructors[bookmarkMetadata.type](bookmarkMetadata);
 }

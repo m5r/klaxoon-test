@@ -1,9 +1,12 @@
 type CtorParams = {
+	id?: string; // id is passed when deserializing
 	url: string;
 	title: string;
 	thumbnail: string;
 	author: string;
 }
+
+export type BookmarkType = "link" | "video" | "picture";
 
 export default class Bookmark {
 	readonly id: string;
@@ -12,16 +15,18 @@ export default class Bookmark {
 	readonly thumbnail: string;
 	readonly author: string;
 	readonly addedAt: Date;
+	type: BookmarkType;
 	keywords: Set<string>;
 
-	constructor({ thumbnail, author, title, url }: CtorParams) {
-		this.id = generateRandomString();
+	constructor({ id, thumbnail, author, title, url }: CtorParams) {
+		this.id = id ?? generateRandomString();
 		this.keywords = new Set();
 		this.addedAt = new Date();
 		this.thumbnail = thumbnail;
 		this.author = author;
 		this.title = title;
 		this.url = url;
+		this.type = "link";
 	}
 }
 
