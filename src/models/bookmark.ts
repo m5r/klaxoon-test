@@ -28,6 +28,10 @@ export default class Bookmark {
 		this.url = url;
 		this.type = "link";
 	}
+
+	public updateKeywords(nextKeywords: Set<string>) {
+		this.keywords = nextKeywords;
+	}
 }
 
 function generateRandomString() {

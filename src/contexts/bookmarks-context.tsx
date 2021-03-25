@@ -1,4 +1,4 @@
-import type { Dispatch, FunctionComponent, SetStateAction } from "react";
+import type { FunctionComponent } from "react";
 import { createContext, useEffect, useState } from "react";
 import localForage from "localforage";
 
@@ -9,7 +9,7 @@ import PictureBookmark from "../models/picture-bookmark";
 type Context = {
 	isInitialized: boolean;
 	bookmarks: Bookmark[];
-	setBookmarks: Dispatch<SetStateAction<Bookmark[]>>;
+	updateBookmarks: (nextBookmarks: Bookmark[]) => void;
 }
 
 export const BookmarksContext = createContext<Context>(null as any);
@@ -19,9 +19,23 @@ export const BookmarksProvider: FunctionComponent = ({ children }) => {
 	const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 	const context: Context = {
 		bookmarks,
-		setBookmarks,
+		updateBookmarks,
 		isInitialized,
 	};
+
+	function updateBookmarks(nextBookmarks: Bookmark[]) {
+		setBookmarks(nextBookmarks);
+
+		const serializedBookmarks = nextBookmarks.map(bookmark => ({
+			...bookmark,
+			keywords: Array.from(bookmark.keywords),
+		}));
+		localForage.setItem("bookmarks", serializedBookmarks)
+			.catch(error => {
+				// we should probably set up a retry strategy to save the data
+				console.error(error);
+			});
+	}
 
 	useEffect(() => {
 		// initialize state from local storage

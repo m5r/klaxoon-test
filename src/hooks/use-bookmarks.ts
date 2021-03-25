@@ -8,10 +8,10 @@ import PictureBookmark from "../models/picture-bookmark";
 import { BookmarksContext } from "../contexts/bookmarks-context";
 
 export default function useBookmarks() {
-	const { isInitialized, bookmarks, setBookmarks } = useContext(BookmarksContext);
+	const { isInitialized, bookmarks, updateBookmarks } = useContext(BookmarksContext);
 	const history = useHistory();
 
-	function editBookmark(bookmarkId: Bookmark["id"]) {
+	function openEditBookmark(bookmarkId: Bookmark["id"]) {
 		return history.push(`/edit/${bookmarkId}`);
 	}
 
@@ -28,22 +28,12 @@ export default function useBookmarks() {
 		const bookmark = makeBookmark(bookmarkMetadata);
 
 		const nextBookmarks = [bookmark, ...bookmarks];
-		setBookmarks(nextBookmarks);
-		localForage.setItem("bookmarks", nextBookmarks)
-			.catch(error => {
-				// we should probably set up a retry strategy to save the data
-				console.error(error);
-			});
+		updateBookmarks(nextBookmarks);
 	}
 
 	function removeBookmark(bookmarkId: Bookmark["id"]) {
 		const nextBookmarks = bookmarks.filter(bookmark => bookmark.id !== bookmarkId);
-		setBookmarks(nextBookmarks);
-		localForage.setItem("bookmarks", nextBookmarks)
-			.catch(error => {
-				// we should probably set up a retry strategy to save the data
-				console.error(error);
-			});
+		updateBookmarks(nextBookmarks);
 	}
 
 	return {
