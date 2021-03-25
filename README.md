@@ -1,5 +1,7 @@
 # Test technique - Klaxoon
 
+[Live preview](https://klaxoon-test.vercel.app/)
+
 ## Installation
 
 ```shell script
